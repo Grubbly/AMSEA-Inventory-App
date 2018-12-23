@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { createProject } from '../../store/actions/projectActions'
 
 class CreateProject extends Component {
   
@@ -20,7 +22,7 @@ class CreateProject extends Component {
         // Don't reload the page
         e.preventDefault();
 
-        console.log(this.state);
+        this.props.createProject(this.state)
     }
 
     render() {
@@ -45,4 +47,12 @@ class CreateProject extends Component {
   }
 }
 
-export default CreateProject
+// When CreateProject is called, run this function to send a dispatch to update
+// projects in store and make async call to database.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createProject: (project) => dispatch(createProject(project))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(CreateProject)
