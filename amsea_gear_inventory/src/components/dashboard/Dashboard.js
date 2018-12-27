@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import Notifications from './Notifications'
 import ProjectList from '../project/ProjectList'
 import { connect } from 'react-redux'
+import {firestoreConnect } from 'react-redux-firebase'
+import { compose } from 'redux'
 
 class Dashboard extends Component {
     render() {
@@ -25,9 +27,18 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         projects: state.project.projects
     }
 }
 
-export default connect(mapStateToProps)(Dashboard);
+export default compose(
+    connect(mapStateToProps),
+
+    // Whenver this component is loaded or data in the firebase projects collection
+    // changes, this reducer fires and updates the display (syncs).
+    firestoreConnect([
+        { collection: 'projects' }
+    ])
+)(Dashboard);
