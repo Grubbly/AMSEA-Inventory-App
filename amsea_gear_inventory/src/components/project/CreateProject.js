@@ -24,6 +24,7 @@ class CreateProject extends Component {
         e.preventDefault();
 
         this.props.createProject(this.state)
+        this.props.history.push('/');
     }
 
     render() {
